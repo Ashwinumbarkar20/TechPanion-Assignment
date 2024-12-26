@@ -26,126 +26,258 @@ const validadate = require("../Middleware/validateId.middleware");
  *           properties:
  *             name:
  *               type: string
- *             age:
- *               type: number
+ *             position:
+ *               type: string
  *             department:
  *               type: string
+ *              salary:
+ *               type: number
+ *          
  *     responses:
  *       201:
  *         description: Employee added successfully
+ *      500:
+ *         description: Server error
  */
-
-
 
 
 router.post("/", empmiddleware, employeeController.addEmp);
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /employees/{id}:
  *   delete:
  *     summary: Delete an employee by ID
- *     tags: [Employees]
+ *     description: Deletes an employee from the database based on the provided ID.
+ *     tags:
+ *       - Employees
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: The ID of the employee to delete.
  *         schema:
  *           type: string
- *         description: Employee ID
  *     responses:
  *       200:
- *         description: Employee deleted successfully
+ *         description: Employee successfully deleted.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Emp deleted
+ *                 employee:
+ *                   $ref: '#/components/schemas/Employee'
+ *       404:
+ *         description: Employee not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Emp not found
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
 router.delete('/:id', validadate.validateId,employeeController.deleteEmp);
 
 /**
  * @swagger
- * /api/employees/name/{name}:
+ * /employees/name/{name}:
  *   get:
  *     summary: Get an employee by name
- *     tags: [Employees]
+ *     description: Retrieve the details of an employee by their name.
+ *     tags:
+ *       - Employees
  *     parameters:
  *       - in: path
  *         name: name
  *         required: true
+ *         description: The name of the employee to retrieve.
  *         schema:
  *           type: string
- *         description: Employee name
  *     responses:
  *       200:
- *         description: Employee retrieved successfully
+ *         description: Employee details retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employee'
  *       404:
- *         description: Employee not found
+ *         description: Employee not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Emp not found
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Error message
  */
+
 router.get('/name/:name', employeeController.getEmpByName);
 
 /**
  * @swagger
- * /api/employees/highest-salary:
+ * /employees/highest-salary:
  *   get:
  *     summary: Get the employee with the highest salary
- *     tags: [Employees]
+ *     description: Retrieve the details of the employee who has the highest salary in the database.
+ *     tags:
+ *       - Employees
  *     responses:
  *       200:
- *         description: Employee retrieved successfully
+ *         description: Employee with the highest salary retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employee'
+ *       404:
+ *         description: No employee found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: No emp found
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
 
 router.get('/highest-salary', employeeController.getEmpWithHighestSalary);
+
 /**
  * @swagger
- * /api/employees:
+ * /employees:
  *   get:
  *     summary: Get all employees
- *     tags: [Employees]
+ *     description: Retrieve a list of all employees from the database.
+ *     tags:
+ *       - Employees
  *     responses:
  *       200:
- *         description: List of employees
+ *         description: Successfully retrieved the list of employees.
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                   name:
- *                     type: string
- *                   age:
- *                     type: number
- *                   department:
- *                     type: string
+ *                 $ref: '#/components/schemas/Employee'
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
+
 router.get('/', employeeController.getAllEmp);
+
 /**
  * @swagger
- * /api/employees/{id}:
+ * /employees/{id}:
  *   put:
- *     summary: Update an employee by ID
- *     tags: [Employees]
+ *     summary: Update an employee
+ *     description: Update an employee's details by ID.
+ *     tags:
+ *       - Employees
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         description: The ID of the employee to update.
  *         schema:
  *           type: string
- *         description: Employee ID
  *       - in: body
- *         name: employee
+ *         name: body
  *         required: true
+ *         description: The employee data to update.
  *         schema:
  *           type: object
  *           properties:
  *             name:
  *               type: string
- *             age:
- *               type: number
+ *               example: John Doe
+ *             position:
+ *               type: string
+ *               example: Manager
  *             department:
  *               type: string
+ *               example: Sales
+ *             salary:
+ *               type: number
+ *               example: 50000
  *     responses:
  *       200:
- *         description: Employee updated successfully
+ *         description: Successfully updated the employee.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Emp updated
+ *                 updatedEmployee:
+ *                   $ref: '#/components/schemas/Employee'
+ *       404:
+ *         description: Employee not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Emp not found
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
+
 router.put('/:id', validadate.validateId, employeeController.updateEmp);
 module.exports = router;

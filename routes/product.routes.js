@@ -12,13 +12,15 @@ const productmiddleware=require('../Middleware/validateId.middleware')
 
 /**
  * @swagger
- * /api/products:
+ * /products:
  *   get:
  *     summary: Get all products
- *     tags: [Products]
+ *     description: Retrieve a list of all available products.
+ *     tags:
+ *       - Products
  *     responses:
  *       200:
- *         description: Successfully retrieved all products
+ *         description: A list of products.
  *         content:
  *           application/json:
  *             schema:
@@ -26,27 +28,41 @@ const productmiddleware=require('../Middleware/validateId.middleware')
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
+ *                   _id:
  *                     type: string
- *                     description: Product ID
+ *                     example: 640fce8b3d524e0567d7d2f9
  *                   name:
  *                     type: string
- *                     description: Product name
+ *                     example: Laptop
  *                   price:
  *                     type: number
- *                     description: Product price
+ *                     example: 999.99
+ *                   category:
+ *                     type: string
+ *                     example: Electronics
  *       500:
- *         description: Server error
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
 
 
 router.get('/', productController.getAllProducts);
+
 /**
  * @swagger
- * /api/products/Addproducts:
+ * /products/Addproducts:
  *   post:
  *     summary: Add a new product
- *     tags: [Products]
+ *     description: Create a new product with the provided details.
+ *     tags:
+ *       - Products
  *     requestBody:
  *       required: true
  *       content:
@@ -56,33 +72,55 @@ router.get('/', productController.getAllProducts);
  *             properties:
  *               name:
  *                 type: string
- *                 description: Name of the product
- *                 example: "Product A"
+ *                 example: Laptop
  *               price:
  *                 type: number
- *                 description: Price of the product
- *                 example: 19.99
- *               description:
+ *                 example: 999.99
+ *               category:
  *                 type: string
- *                 description: Description of the product
- *                 example: "This is a sample product."
+ *                 example: Electronics
  *     responses:
  *       201:
- *         description: Product successfully added
+ *         description: Product successfully created.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 _id:
  *                   type: string
- *                   description: Success message
- *                   example: "Product added successfully"
+ *                   example: 640fce8b3d524e0567d7d2f9
+ *                 name:
+ *                   type: string
+ *                   example: Laptop
+ *                 price:
+ *                   type: number
+ *                   example: 999.99
+ *                 category:
+ *                   type: string
+ *                   example: Electronics
  *       400:
- *         description: Bad request (invalid input)
+ *         description: Validation error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: All fields are required.
  *       500:
- *         description: Server error
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
+
 
 router.post('/Addproducts', productmiddleware.validateProductData,productController.addProduct);
 

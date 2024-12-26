@@ -55,8 +55,9 @@ const updateEmp = async (req, res) => {
     const { id } = req.params;
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
-      req.body, // Update fields
-      { new: true, runValidators: true } // Options to return the updated document and enforce schema validation
+      req.body, 
+      { new: true, runValidators: true } 
+      
     );
 
     if (!updatedEmployee) {
