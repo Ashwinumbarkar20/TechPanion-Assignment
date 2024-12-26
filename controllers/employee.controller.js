@@ -50,4 +50,24 @@ const getAllEmp = async (req, res) => {
   }
 };
 
-module.exports={addEmp,deleteEmp,getEmpByName,getEmpWithHighestSalary,getAllEmp}
+const updateEmp = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      req.body, // Update fields
+      { new: true, runValidators: true } // Options to return the updated document and enforce schema validation
+    );
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ msg: 'Emp not found' });
+    }
+
+    res.status(200).json({ msg: 'Emp updated', updatedEmployee });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+
+module.exports={addEmp,deleteEmp,getEmpByName,getEmpWithHighestSalary,getAllEmp,updateEmp}

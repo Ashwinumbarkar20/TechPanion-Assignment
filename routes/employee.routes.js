@@ -9,4 +9,5 @@ router.delete('/:id', validadate.validateId,employeeController.deleteEmp);
 router.get('/name/:name', employeeController.getEmpByName);
 router.get('/highest-salary', employeeController.getEmpWithHighestSalary);
 router.get('/', employeeController.getAllEmp);
+router.put('/:id', validadate.validateId, employeeController.updateEmp);
 module.exports = router;
