@@ -13,33 +13,81 @@ const validadate = require("../Middleware/validateId.middleware");
 
 /**
  * @swagger
- * /api/employees:
+ * /employees/:
  *   post:
  *     summary: Add a new employee
- *     tags: [Employees]
- *     parameters:
- *       - in: body
- *         name: employee
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             position:
- *               type: string
- *             department:
- *               type: string
- *              salary:
- *               type: number
- *          
+ *     description: Create a new employee with the provided details.
+ *     tags:
+ *       - Employees
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *               position:
+ *                 type: string
+ *                 example: Software Engineer
+ *               department:
+ *                 type: string
+ *                 example: IT
+ *               salary:
+ *                 type: number
+ *                 example: 75000
  *     responses:
  *       201:
- *         description: Employee added successfully
- *      500:
- *         description: Server error
+ *         description: Employee successfully added.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Employee added
+ *                 employee:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       example: 640fce8b3d524e0567d7d2f9
+ *                     name:
+ *                       type: string
+ *                       example: John Doe
+ *                     position:
+ *                       type: string
+ *                       example: Software Engineer
+ *                     department:
+ *                       type: string
+ *                       example: IT
+ *                     salary:
+ *                       type: number
+ *                       example: 75000
+ *       400:
+ *         description: Validation error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: name is required
+ *       500:
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Error message
  */
-
 
 router.post("/", empmiddleware, employeeController.addEmp);
 
