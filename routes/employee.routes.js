@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const employeeController = require('../controllers/employee.controller');
 const empmiddleware= require("../Middleware/validateEmployee.middleware");
-const validateId = require("../Middlewares/validateId.middleware");
+const validateId = require("../Middleware/validateId.middleware");
 
 router.post('/',empmiddleware,employeeController.addEmp);
 router.delete('/:id', validateId,employeeController.deleteEmp);
